@@ -1,4 +1,6 @@
-package be.bnp.business
+package be.bnp.business.usecases
+
+import be.bnp.business.models.LightState
 
 class GetSecondsLightStateUseCase {
 

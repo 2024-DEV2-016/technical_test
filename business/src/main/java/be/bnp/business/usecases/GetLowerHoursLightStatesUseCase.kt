@@ -1,6 +1,8 @@
-package be.bnp.business
+package be.bnp.business.usecases
 
-class GetLowerHoursLightsStatesUseCase {
+import be.bnp.business.models.LightState
+
+class GetLowerHoursLightStatesUseCase {
 
 	operator fun invoke(hours: Int): List<LightState> {
 		val lightsOnCount = hours % 5

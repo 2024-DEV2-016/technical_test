@@ -1,5 +1,7 @@
 package be.bnp.business
 
+import be.bnp.business.models.LightState
+import be.bnp.business.usecases.GetSecondsLightStateUseCase
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
