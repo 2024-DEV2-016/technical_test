@@ -24,4 +24,16 @@ class BerlinClockUiTest {
 		}
 		composeTestRule.onNodeWithTag("LightBox${LightState.YELLOW}").assertExists()
 	}
+
+	@Test
+	fun onOddSecondsLightBoxShouldBeOff() {
+		val secondsLightStateUseCase = GetSecondsLightStateUseCase()
+		val lightState = secondsLightStateUseCase(1)
+		composeTestRule.setContent {
+			BerlinClockTestTheme {
+				CircleLightBox(lightState)
+			}
+		}
+		composeTestRule.onNodeWithTag("LightBox${LightState.OFF}").assertExists()
+	}
 }
