@@ -16,6 +16,12 @@ import java.time.LocalTime
 
 class ClockViewModel(private val timeProvider: () -> LocalTime = { LocalTime.now() }) : ViewModel() {
 
+	private val getSecondsLightStateUseCase by lazy { GetSecondsLightStateUseCase() }
+	private val getUpperHoursLightStatesUseCase by lazy { GetUpperHoursLightStatesUseCase() }
+	private val getLowerHoursLightStatesUseCase by lazy { GetLowerHoursLightStatesUseCase() }
+	private val getUpperMinutesLightStatesUseCase by lazy { GetUpperMinutesLightStatesUseCase() }
+	private val getLowerMinutesLightStatesUseCase by lazy { GetLowerMinutesLightStatesUseCase() }
+
 	private val _clockStateFlow = MutableStateFlow<State<BerlinClock>>(State.Loading)
 	val clockFlow: StateFlow<State<BerlinClock>> = _clockStateFlow
 
@@ -34,11 +40,11 @@ class ClockViewModel(private val timeProvider: () -> LocalTime = { LocalTime.now
 
 	private fun buildBerlinClock(localTime: LocalTime): BerlinClock {
 		return BerlinClock(
-			GetSecondsLightStateUseCase().invoke(localTime.second),
-			GetUpperHoursLightStatesUseCase().invoke(localTime.hour),
-			GetLowerHoursLightStatesUseCase().invoke(localTime.hour),
-			GetUpperMinutesLightStatesUseCase().invoke(localTime.minute),
-			GetLowerMinutesLightStatesUseCase().invoke(localTime.minute)
+			getSecondsLightStateUseCase(localTime.second),
+			getUpperHoursLightStatesUseCase(localTime.hour),
+			getLowerHoursLightStatesUseCase(localTime.hour),
+			getUpperMinutesLightStatesUseCase(localTime.minute),
+			getLowerMinutesLightStatesUseCase(localTime.minute)
 		)
 	}
 }
