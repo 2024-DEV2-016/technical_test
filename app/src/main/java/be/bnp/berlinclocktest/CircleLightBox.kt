@@ -7,6 +7,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import be.bnp.business.models.LightState
 
@@ -17,5 +18,6 @@ fun CircleLightBox(lightState: LightState) {
 			.size(100.dp)
 			.clip(CircleShape)
 			.background(getColorFromLightState(lightState))
+			.testTag("LightBox$lightState")
 	)
 }
