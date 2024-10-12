@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
+import be.bnp.berlinclocktest.Constants.TAG
 import be.bnp.business.models.LightState
 
 @Composable
@@ -18,7 +19,7 @@ fun LightRow(lightStates: List<LightState>) {
 		lightStates.forEach { lightState ->
 			Box(modifier = Modifier
 				.height(50.dp)
-				.testTag("LightBox$lightState")
+				.testTag("$TAG$lightState")
 				.background(getColorFromLightState(lightState)))
 		}
 	}

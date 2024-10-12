@@ -5,9 +5,9 @@ import be.bnp.business.models.LightState.OFF
 import be.bnp.business.models.LightState.RED
 import be.bnp.business.models.LightState.YELLOW
 
-class GetUpperMinutesLightStatesUseCase {
+class GetUpperMinutesLightStatesUseCase: LightStateUseCase {
 
-	operator fun invoke(minutes: Int): List<LightState> {
+	override operator fun invoke(minutes: Int): List<LightState> {
 		val lightsOnCount = minutes / 5
 		return List(11) { index ->
 			when {

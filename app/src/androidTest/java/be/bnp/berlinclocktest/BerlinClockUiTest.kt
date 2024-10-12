@@ -3,10 +3,15 @@ package be.bnp.berlinclocktest
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onNodeWithTag
+import be.bnp.berlinclocktest.Constants.TAG
 import be.bnp.berlinclocktest.ui.theme.BerlinClockTestTheme
 import be.bnp.business.models.LightState
+import be.bnp.business.usecases.GetLowerHoursLightStatesUseCase
+import be.bnp.business.usecases.GetLowerMinutesLightStatesUseCase
 import be.bnp.business.usecases.GetSecondsLightStateUseCase
 import be.bnp.business.usecases.GetUpperHoursLightStatesUseCase
+import be.bnp.business.usecases.GetUpperMinutesLightStatesUseCase
+import be.bnp.business.usecases.LightStateUseCase
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
@@ -16,46 +21,74 @@ class BerlinClockUiTest {
 	@get:Rule
 	val composeTestRule = createComposeRule()
 
+	private val secondsLightStateUseCase = GetSecondsLightStateUseCase()
+	private val upperHoursLightStatesUseCase = GetUpperHoursLightStatesUseCase()
+	private val lowerHoursLightStatesUseCase = GetLowerHoursLightStatesUseCase()
+	private val upperMinutesLightStatesUseCase = GetUpperMinutesLightStatesUseCase()
+	private val lowerMinutesLightStatesUseCase = GetLowerMinutesLightStatesUseCase()
+
 	@Test
-	fun onEvenSecondsLightBoxShouldBeYellow() {
-		val secondsLightStateUseCase = GetSecondsLightStateUseCase()
-		val lightState = secondsLightStateUseCase.invoke(2)
+	fun secondsLightBox_isYellow_onEvenSeconds() {
+		testCircleLightBox(seconds = 2, expectedState = LightState.YELLOW)
+	}
+
+	@Test
+	fun secondsLightBox_isOff_onOddSeconds() {
+		testCircleLightBox(seconds = 1, expectedState = LightState.OFF)
+	}
+
+	@Test
+	fun upperHoursLightRow_displaysCorrectNumberOfLitLights() {
+		testLightRow(13, upperHoursLightStatesUseCase)
+	}
+
+	@Test
+	fun lowerHoursLightRow_displaysCorrectNumberOfLitLights() {
+		testLightRow(13, lowerHoursLightStatesUseCase)
+	}
+
+	@Test
+	fun upperMinutesLightRow_displaysCorrectNumberOfLitLights() {
+		testLightRow(35, upperMinutesLightStatesUseCase)
+	}
+
+	@Test
+	fun lowerMinutesLightRow_displaysCorrectNumberOfLitLights() {
+		testLightRow(35, lowerMinutesLightStatesUseCase)
+	}
+
+	private fun testCircleLightBox(seconds: Int, expectedState: LightState) {
+		val lightState = secondsLightStateUseCase(seconds).first()
 		composeTestRule.setContent {
 			BerlinClockTestTheme {
 				CircleLightBox(lightState)
 			}
 		}
-		composeTestRule.onNodeWithTag("LightBox${LightState.YELLOW}").assertExists()
+
+		composeTestRule.onNodeWithTag("$TAG${expectedState}").assertExists()
 	}
 
-	@Test
-	fun onOddSecondsLightBoxShouldBeOff() {
-		val secondsLightStateUseCase = GetSecondsLightStateUseCase()
-		val lightState = secondsLightStateUseCase(1)
-		composeTestRule.setContent {
-			BerlinClockTestTheme {
-				CircleLightBox(lightState)
-			}
-		}
-		composeTestRule.onNodeWithTag("LightBox${LightState.OFF}").assertExists()
-	}
-
-	@Test
-	fun lightRowLightsUpTheCorrectNumberOfLightsForUpperHours() {
-		val upperHoursLightStatesUseCase = GetUpperHoursLightStatesUseCase()
-		val lightStates = upperHoursLightStatesUseCase(13)
+	private fun testLightRow(time: Int, useCase: LightStateUseCase) {
+		val lightStates = useCase(time)
 		composeTestRule.setContent {
 			BerlinClockTestTheme {
 				LightRow(lightStates)
 			}
 		}
 
-		val offLightsCount = lightStates.filter { it == LightState.OFF }.size
-		val redLightsCount = lightStates.filter { it == LightState.RED }.size
-		val yellowLightsCount = lightStates.filter { it == LightState.YELLOW }.size
+		assertLightStates(lightStates)
+	}
 
-		assertEquals(offLightsCount, composeTestRule.onAllNodesWithTag("LightBox${LightState.OFF}").fetchSemanticsNodes().size)
-		assertEquals(redLightsCount, composeTestRule.onAllNodesWithTag("LightBox${LightState.RED}").fetchSemanticsNodes().size)
-		assertEquals(yellowLightsCount, composeTestRule.onAllNodesWithTag("LightBox${LightState.YELLOW}").fetchSemanticsNodes().size)
+	private fun assertLightStates(lightStates: List<LightState>) {
+		assertLightStateCount(LightState.OFF, lightStates)
+		assertLightStateCount(LightState.RED, lightStates)
+		assertLightStateCount(LightState.YELLOW, lightStates)
+	}
+
+	private fun assertLightStateCount(expectedState: LightState, lightStates: List<LightState>) {
+		val expectedCount = lightStates.count { it == expectedState }
+		val actualCount = composeTestRule.onAllNodesWithTag("$TAG$expectedState").fetchSemanticsNodes().size
+
+		assertEquals("Incorrect number of $expectedState lights", expectedCount, actualCount)
 	}
 }

@@ -2,7 +2,7 @@ package be.bnp.business.usecases
 
 import be.bnp.business.models.LightState
 
-class GetSecondsLightStateUseCase {
+class GetSecondsLightStateUseCase: LightStateUseCase {
 
-	operator fun invoke(seconds: Int): LightState = if (seconds % 2 == 0) LightState.YELLOW else LightState.OFF
+	override operator fun invoke(seconds: Int) = listOf(if (seconds % 2 == 0) LightState.YELLOW else LightState.OFF)
 }
