@@ -1,7 +1,6 @@
 package be.bnp.berlinclocktest
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import be.bnp.business.models.LightState
 import be.bnp.business.models.LightState.OFF
 import be.bnp.business.models.LightState.RED
 import be.bnp.business.models.LightState.YELLOW
@@ -15,6 +14,8 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import java.time.LocalTime
+import java.time.format.DateTimeFormatter
+
 
 class ClockViewModelTest {
 
@@ -43,7 +44,7 @@ class ClockViewModelTest {
 
 	@Test
 	fun `The BerlinClock returned by the viewModel should reflect the given time`() = runTest {
-		val viewModel = ClockViewModel(timeProvider = { LocalTime.of(13, 17, 1)})
+		val viewModel = ClockViewModel(timeProvider = { LocalTime.of(13, 17, 1) })
 		val berlinClock = (viewModel.clockFlow.first { it is State.Success } as State.Success).data
 
 		assertEquals(OFF, berlinClock.secondsLightState)
@@ -51,5 +52,13 @@ class ClockViewModelTest {
 		assertEquals(listOf(RED, RED, RED, OFF), berlinClock.lowerHoursLightStates)
 		assertEquals(listOf(YELLOW, YELLOW, RED, OFF, OFF, OFF, OFF, OFF, OFF, OFF, OFF), berlinClock.upperMinutesLightStates)
 		assertEquals(listOf(YELLOW, YELLOW, OFF, OFF), berlinClock.lowerMinutesLightStates)
+	}
+
+	@Test
+	fun `The viewModel should return the current time`() = runTest {
+		val currentTime = LocalTime.now()
+		assertEquals(currentTime.hour, viewModel.timeFlow.value.hour)
+		assertEquals(currentTime.minute, viewModel.timeFlow.value.minute)
+		assertEquals(currentTime.second, viewModel.timeFlow.value.second)
 	}
 }

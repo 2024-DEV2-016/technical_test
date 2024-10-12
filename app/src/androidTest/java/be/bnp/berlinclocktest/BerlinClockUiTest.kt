@@ -1,5 +1,6 @@
 package be.bnp.berlinclocktest
 
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onNodeWithTag
@@ -55,6 +56,17 @@ class BerlinClockUiTest {
 	@Test
 	fun lowerMinutesLightRow_displaysCorrectNumberOfLitLights() {
 		testLightRow(35, lowerMinutesLightStatesUseCase)
+	}
+
+	@Test
+	fun textView_displaysCurrentTime() {
+		composeTestRule.setContent {
+			BerlinClockTestTheme {
+				ClockDisplay(Modifier)
+			}
+		}
+
+		composeTestRule.onNodeWithTag("clock").assertExists()
 	}
 
 	private fun testCircleLightBox(seconds: Int, expectedState: LightState) {

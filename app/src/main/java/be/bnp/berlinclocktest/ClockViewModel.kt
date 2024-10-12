@@ -25,11 +25,15 @@ class ClockViewModel(private val timeProvider: () -> LocalTime = { LocalTime.now
 	private val _clockStateFlow = MutableStateFlow<State<BerlinClock>>(State.Loading)
 	val clockFlow: StateFlow<State<BerlinClock>> = _clockStateFlow
 
+	private val _timeFlow = MutableStateFlow(LocalTime.now())
+	val timeFlow: StateFlow<LocalTime> = _timeFlow
+
 	init {
 		viewModelScope.launch {
 			while (true) {
 				try {
 					_clockStateFlow.value = State.Success(buildBerlinClock(timeProvider.invoke()))
+					_timeFlow.value = LocalTime.now()
 				} catch (e: Exception) {
 					_clockStateFlow.value = State.Error(e)
 				}
