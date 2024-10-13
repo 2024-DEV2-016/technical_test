@@ -4,7 +4,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onNodeWithTag
-import be.bnp.berlinclocktest.Constants.TAG
+import be.bnp.berlinclocktest.ui.CircleLightBox
+import be.bnp.berlinclocktest.ui.ClockDisplay
+import be.bnp.berlinclocktest.ui.LightRow
+import be.bnp.berlinclocktest.util.Constants.TAG
 import be.bnp.berlinclocktest.ui.theme.BerlinClockTestTheme
 import be.bnp.business.models.LightState
 import be.bnp.business.usecases.GetLowerHoursLightStatesUseCase
@@ -73,7 +76,7 @@ class BerlinClockUiTest {
 		val lightState = secondsLightStateUseCase(seconds).first()
 		composeTestRule.setContent {
 			BerlinClockTestTheme {
-				CircleLightBox(lightState)
+				CircleLightBox(Modifier, lightState)
 			}
 		}
 
@@ -84,7 +87,7 @@ class BerlinClockUiTest {
 		val lightStates = useCase(time)
 		composeTestRule.setContent {
 			BerlinClockTestTheme {
-				LightRow(lightStates)
+				LightRow(Modifier, lightStates)
 			}
 		}
 

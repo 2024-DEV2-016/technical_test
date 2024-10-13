@@ -1,13 +1,9 @@
-package be.bnp.berlinclocktest
+package be.bnp.berlinclocktest.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -20,6 +16,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import be.bnp.berlinclocktest.ClockViewModel
+import be.bnp.berlinclocktest.State
 import be.bnp.berlinclocktest.ui.theme.BerlinClockTestTheme
 
 @Composable
@@ -29,66 +27,53 @@ fun BerlinClockDisplay(modifier: Modifier, viewModel: ClockViewModel = viewModel
 
 	when (clockState) {
 		is State.Loading -> {
-			Column(
-				modifier = modifier
-					.fillMaxSize()
-					.padding(16.dp),
-				horizontalAlignment = Alignment.CenterHorizontally,
-				verticalArrangement = Arrangement.Center
-			) {
-				Text(text = "Loading")
-			}
+			MessageDisplay(message = "Loading")
 		}
 
 		is State.Error -> {
 			val throwable = (clockState as State.Error).throwable
-			Column(
-				modifier = modifier
-					.fillMaxSize()
-					.padding(16.dp),
-				horizontalAlignment = Alignment.CenterHorizontally,
-				verticalArrangement = Arrangement.Center
-			) {
-				Text(text = throwable.message ?: "An error occurred")
-			}
+			MessageDisplay(message = throwable.message ?: "An Error occurred")
 		}
 
-		else -> {
+		is State.Success -> {
 			val berlinClock = (clockState as State.Success).data
 			Column(
 				modifier = modifier
 					.fillMaxSize()
 					.padding(16.dp)
 					.navigationBarsPadding()
-					.statusBarsPadding()
+					.statusBarsPadding(),
+				verticalArrangement = Arrangement.SpaceBetween
 			) {
-				Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-					CircleLightBox(lightState = berlinClock.secondsLightState.first())
-				}
 
-				Spacer(modifier = Modifier.height(16.dp))
+				CircleLightBox(modifier = Modifier.weight(1f).padding(vertical = 4.dp), lightState = berlinClock.secondsLightState.first())
 
-				LightRow(lightStates = berlinClock.upperHoursLightStates)
+				LightRow(Modifier.weight(1f).padding(vertical = 4.dp), lightStates = berlinClock.upperHoursLightStates)
 
-				Spacer(modifier = Modifier.height(16.dp))
+				LightRow(Modifier.weight(1f).padding(vertical = 4.dp), lightStates = berlinClock.lowerHoursLightStates)
 
-				LightRow(lightStates = berlinClock.lowerHoursLightStates)
+				LightRow(Modifier.weight(1f).padding(vertical = 4.dp), lightStates = berlinClock.upperMinutesLightStates)
 
-				Spacer(modifier = Modifier.height(16.dp))
-
-				LightRow(lightStates = berlinClock.upperMinutesLightStates)
-
-				Spacer(modifier = Modifier.height(16.dp))
-
-				LightRow(lightStates = berlinClock.lowerMinutesLightStates)
-
-				Spacer(modifier = Modifier.weight(1f))
+				LightRow(Modifier.weight(1f).padding(vertical = 4.dp), lightStates = berlinClock.lowerMinutesLightStates)
 
 				Row(verticalAlignment = Alignment.Bottom) {
 					ClockDisplay(modifier = modifier)
 				}
 			}
 		}
+	}
+}
+
+@Composable
+fun MessageDisplay(message: String, modifier: Modifier = Modifier) {
+	Column(
+		modifier = modifier
+			.fillMaxSize()
+			.padding(16.dp),
+		horizontalAlignment = Alignment.CenterHorizontally,
+		verticalArrangement = Arrangement.Center
+	) {
+		Text(text = message)
 	}
 }
 

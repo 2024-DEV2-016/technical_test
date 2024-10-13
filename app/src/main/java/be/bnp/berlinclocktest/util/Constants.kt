@@ -1,4 +1,4 @@
-package be.bnp.berlinclocktest
+package be.bnp.berlinclocktest.util
 
 object Constants {
 

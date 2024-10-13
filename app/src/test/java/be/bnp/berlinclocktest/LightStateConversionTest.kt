@@ -1,6 +1,7 @@
 package be.bnp.berlinclocktest
 
 import androidx.compose.ui.graphics.Color
+import be.bnp.berlinclocktest.util.getColorFromLightState
 import be.bnp.business.models.LightState
 import org.junit.Assert.assertEquals
 import org.junit.Test

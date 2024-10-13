@@ -1,4 +1,4 @@
-package be.bnp.berlinclocktest
+package be.bnp.berlinclocktest.util
 
 import androidx.compose.ui.graphics.Color
 import be.bnp.business.models.LightState

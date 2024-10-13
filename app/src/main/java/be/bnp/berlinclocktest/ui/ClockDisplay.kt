@@ -1,4 +1,4 @@
-package be.bnp.berlinclocktest
+package be.bnp.berlinclocktest.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -13,6 +13,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import be.bnp.berlinclocktest.ClockViewModel
+import be.bnp.berlinclocktest.R
 import be.bnp.berlinclocktest.ui.theme.BerlinClockTestTheme
 
 @Composable
