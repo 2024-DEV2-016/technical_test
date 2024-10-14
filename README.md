@@ -79,7 +79,7 @@ https://github.com/user-attachments/assets/4490d215-6d40-42c2-91f4-b946c7af7613
 https://drive.google.com/file/d/1pjAvmxMj9MFkLBn_67abhH3cu-MoTDst/view?usp=drive_link
 
 # Sources
-Clean code book
-[Clean architecture kotlin](https://medium.com/codex/from-junior-to-senior-the-real-way-to-implement-clean-architecture-in-android-8514005e85e1)
-[Droidcon](https://www.droidcon.com/2023/07/26/building-high-quality-android-ui-embracing-test-driven-development-with-jetpack-compose/)
-[butunclebob](http://butunclebob.com/ArticleS.UncleBob.TheThreeRulesOfTdd)
+- Clean code book
+- [Clean architecture kotlin](https://medium.com/codex/from-junior-to-senior-the-real-way-to-implement-clean-architecture-in-android-8514005e85e1)
+- [Droidcon](https://www.droidcon.com/2023/07/26/building-high-quality-android-ui-embracing-test-driven-development-with-jetpack-compose/)
+- [butunclebob](http://butunclebob.com/ArticleS.UncleBob.TheThreeRulesOfTdd)
