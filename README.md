@@ -11,9 +11,16 @@ The next two rows represent hours. The upper row represents 5 hour blocks and is
 
 The final two rows represent the minutes. The upper row represents 5 minute blocks, and is made up of 11 lamps- every third lamp is red, the rest are yellow. The bottom row represents 1 minute blocks, and is made up of 4 yellow lamps.
 
+# Architecture and methodology
+
+I decided to create a develop branch as I usually do even if this project didn't really need it. For me, it's a good practice to not directly push on main. I could have pushed it further by creating more branches during the implementation but I decided to keep it simple.
+
+In the same context, I created 2 modules to separate the dependencies and organize the project in a better way. Perhaps this is questionnable for a project of this size but yet wanted to keep good practices.
+
 # TDD
 
-Just wanted to point out that it's the first time I used TDD. Glad to have learn it and ready to deepen my learning. 
+Just wanted to point out that it's the first time I used TDD. Glad to have learn it and ready to deepen my learning. Overall, it was a good experience doing it.
+If something wasn't done the right way, I'm happy to discuss it in order to grow in the testing world.
 
 # How to install
 Prerequisites
